@@ -928,6 +928,7 @@ public class Game {
     }
 
     private void updateLobbyBlock() {
+        if (s1 == null || s2 == null) return;
         s1.setLine(1, status.getName());
         s1.setLine(2, "");
         s2.setLine(1, ChatColor.BOLD + "" + players.size() + "/" + maxPlayers);
