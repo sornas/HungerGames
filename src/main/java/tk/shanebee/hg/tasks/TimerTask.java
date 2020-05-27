@@ -56,8 +56,8 @@ public class TimerTask implements Runnable {
             game.msgAll(HG.getPlugin().getLang().game_almost_over);
             game.respawnAll();
         } else if (this.remainingtime < 10) {
-            stop();
-            game.stop(false);
+            // stop();
+            // game.stop(false);
         } else {
             if (!Config.bossbar) {
                 int minutes = this.remainingtime / 60;
@@ -77,6 +77,8 @@ public class TimerTask implements Runnable {
             }
         }
         remainingtime = (remainingtime - 5);
+        if (remainingtime < 0)
+            remainingtime = 0;
     }
 
     public void stop() {
