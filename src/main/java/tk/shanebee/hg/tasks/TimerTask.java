@@ -14,7 +14,6 @@ public class TimerTask implements Runnable {
     private int teleportTimer;
     private int borderCountdownStart;
     private int borderCountdownEnd;
-    private boolean borderForceStart;
     private int id;
     private Game game;
 
@@ -34,9 +33,9 @@ public class TimerTask implements Runnable {
         if (game == null || game.getStatus() != Status.RUNNING)
             stop(); // A quick null check!
 
-        if (game.startBorder) {
+        if (game.startBorder()) {
             remainingtime = borderCountdownStart;
-            game.startBorder = false;
+            game.setStartBorder(false);
         }
 
         if (Config.bossbar)

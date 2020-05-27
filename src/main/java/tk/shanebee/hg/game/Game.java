@@ -90,7 +90,7 @@ public class Game {
     private int borderSize;
     private int borderCountdownStart;
     private int borderCountdownEnd;
-    public boolean startBorder = false;
+    private boolean startBorderFlag = false;
 
     private boolean spectate = Config.spectateEnabled;
     private boolean spectateOnDeath = Config.spectateOnDeath;
@@ -572,6 +572,14 @@ public class Game {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+    
+    public boolean startBorder() {
+        return this.startBorderFlag;
+    }
+    
+    public void setStartBorder(boolean startBorderFlag) {
+        this.startBorderFlag = startBorderFlag;
     }
 
     /**

@@ -16,7 +16,7 @@ public class BorderStartCmd extends BaseCmd {
     public boolean run() {
         Game game = gameManager.getGame(args[1]);
         if (game != null) {
-            game.startBorder = true;
+            game.setStartBorder(true);
             game.msgAll("Border going up!");
         }
         return true;
