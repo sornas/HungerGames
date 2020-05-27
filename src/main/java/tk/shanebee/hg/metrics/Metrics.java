@@ -26,18 +26,23 @@ import java.util.zip.GZIPOutputStream;
  * <p>
  * Check out https://bStats.org/ to learn more about bStats!
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({ "WeakerAccess", "unused" })
 public class Metrics {
 
     static {
         // You can use the property to disable the check in your test environment
-        if (System.getProperty("bstats.relocatecheck") == null || !System.getProperty("bstats.relocatecheck").equals("false")) {
-            // Maven's Relocate is clever and changes strings, too. So we have to use this little "trick" ... :D
+        if (System.getProperty("bstats.relocatecheck") == null
+                || !System.getProperty("bstats.relocatecheck").equals("false")) {
+            // Maven's Relocate is clever and changes strings, too. So we have to use this
+            // little "trick" ... :D
             final String defaultPackage = new String(
-                    new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's', '.', 'b', 'u', 'k', 'k', 'i', 't'});
-            final String examplePackage = new String(new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
-            // We want to make sure nobody just copy & pastes the example and use the wrong package names
-            if (Metrics.class.getPackage().getName().equals(defaultPackage) || Metrics.class.getPackage().getName().equals(examplePackage)) {
+                    new byte[] { 'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's', '.', 'b', 'u', 'k', 'k', 'i', 't' });
+            final String examplePackage = new String(
+                    new byte[] { 'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e' });
+            // We want to make sure nobody just copy & pastes the example and use the wrong
+            // package names
+            if (Metrics.class.getPackage().getName().equals(defaultPackage)
+                    || Metrics.class.getPackage().getName().equals(examplePackage)) {
                 throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
             }
         }
@@ -102,14 +107,15 @@ public class Metrics {
 
             // Inform the server owners about bStats
             config.options().header(
-                    "bStats collects some data for plugin authors like how many servers are using their plugins.\n" +
-                            "To honor their work, you should not disable it.\n" +
-                            "This has nearly no effect on the server performance!\n" +
-                            "Check out https://bStats.org/ to learn more :)"
-            ).copyDefaults(true);
+                    "bStats collects some data for plugin authors like how many servers are using their plugins.\n"
+                            + "To honor their work, you should not disable it.\n"
+                            + "This has nearly no effect on the server performance!\n"
+                            + "Check out https://bStats.org/ to learn more :)")
+                    .copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) { }
+            } catch (IOException ignored) {
+            }
         }
 
         // Load the data
@@ -127,7 +133,8 @@ public class Metrics {
                     service.getField("B_STATS_VERSION"); // Our identifier :)
                     found = true; // We aren't the first
                     break;
-                } catch (NoSuchFieldException ignored) { }
+                } catch (NoSuchFieldException ignored) {
+                }
             }
             // Register our service
             Bukkit.getServicesManager().register(Metrics.class, this, plugin, ServicePriority.Normal);
@@ -171,19 +178,22 @@ public class Metrics {
                     timer.cancel();
                     return;
                 }
-                // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the Bukkit scheduler
-                // Don't be afraid! The connection to the bStats server is still async, only the stats collection is sync ;)
+                // Nevertheless we want our code to run in the Bukkit main thread, so we have to
+                // use the Bukkit scheduler
+                // Don't be afraid! The connection to the bStats server is still async, only the
+                // stats collection is sync ;)
                 Bukkit.getScheduler().runTask(plugin, () -> submitData());
             }
         }, 1000 * 60 * 5, 1000 * 60 * 30);
-        // Submit the data every 30 minutes, first time after 5 minutes to give other plugins enough time to start
-        // WARNING: Changing the frequency has no effect but your plugin WILL be blocked/deleted!
+        // Submit the data every 30 minutes, first time after 5 minutes to give other
+        // plugins enough time to start
+        // WARNING: Changing the frequency has no effect but your plugin WILL be
+        // blocked/deleted!
         // WARNING: Just don't do it!
     }
 
     /**
-     * Gets the plugin specific data.
-     * This method is called using Reflection.
+     * Gets the plugin specific data. This method is called using Reflection.
      *
      * @return The plugin specific data.
      */
@@ -219,7 +229,8 @@ public class Metrics {
         int playerAmount;
         try {
             // Around MC 1.8 the return type was changed to a collection from an array,
-            // This fixes java.lang.NoSuchMethodError: org.bukkit.Bukkit.getOnlinePlayers()Ljava/util/Collection;
+            // This fixes java.lang.NoSuchMethodError:
+            // org.bukkit.Bukkit.getOnlinePlayers()Ljava/util/Collection;
             Method onlinePlayersMethod = Class.forName("org.bukkit.Server").getMethod("getOnlinePlayers");
             playerAmount = onlinePlayersMethod.getReturnType().equals(Collection.class)
                     ? ((Collection<?>) onlinePlayersMethod.invoke(Bukkit.getServer())).size()
@@ -291,9 +302,12 @@ public class Metrics {
                                 continue; // continue looping since we cannot do any other thing.
                             }
                         }
-                    } catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) { }
+                    } catch (NullPointerException | NoSuchMethodException | IllegalAccessException
+                            | InvocationTargetException ignored) {
+                    }
                 }
-            } catch (NoSuchFieldException ignored) { }
+            } catch (NoSuchFieldException ignored) {
+            }
         }
 
         data.add("plugins", pluginData);
@@ -308,7 +322,8 @@ public class Metrics {
                 } catch (Exception e) {
                     // Something went wrong! :(
                     if (logFailedRequests) {
-                        plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
+                        plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(),
+                                e);
                     }
                 }
             }
@@ -319,7 +334,7 @@ public class Metrics {
      * Sends the data to the bStats server.
      *
      * @param plugin Any plugin. It's just used to get a logger instance.
-     * @param data The data to send.
+     * @param data   The data to send.
      * @throws Exception If the request failed.
      */
     private static void sendData(Plugin plugin, JsonObject data) throws Exception {
@@ -438,7 +453,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SimplePie(String chartId, Callable<String> callable) {
@@ -469,7 +484,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public AdvancedPie(String chartId, Callable<Map<String, Integer>> callable) {
@@ -513,7 +528,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public DrilldownPie(String chartId, Callable<Map<String, Map<String, Integer>>> callable) {
@@ -562,7 +577,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SingleLineChart(String chartId, Callable<Integer> callable) {
@@ -594,7 +609,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public MultiLineChart(String chartId, Callable<Map<String, Integer>> callable) {
@@ -639,7 +654,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SimpleBarChart(String chartId, Callable<Map<String, Integer>> callable) {
@@ -677,7 +692,7 @@ public class Metrics {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public AdvancedBarChart(String chartId, Callable<Map<String, int[]>> callable) {

@@ -10,29 +10,31 @@ import tk.shanebee.hg.game.Game;
 @SuppressWarnings("unused")
 public class GameStartEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
-	private Game game;
+    private static final HandlerList handlers = new HandlerList();
+    private Game game;
 
-	public GameStartEvent(Game game) {
-		this.game = game;
-	}
+    public GameStartEvent(Game game) {
+        this.game = game;
+    }
 
-	/** Get the game involved in this event
-	 * @return The game
-	 */
-	public Game getGame() {
-		return this.game;
-	}
+    /**
+     * Get the game involved in this event
+     * 
+     * @return The game
+     */
+    public Game getGame() {
+        return this.game;
+    }
 
-	@SuppressWarnings("NullableProblems")
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	@SuppressWarnings("unused")
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    @SuppressWarnings("unused")
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
 }

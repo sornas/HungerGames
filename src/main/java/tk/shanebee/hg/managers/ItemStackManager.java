@@ -49,7 +49,8 @@ public class ItemStackManager {
     public KitManager setGameKits(String gameName, Configuration config) {
         String gamePath = "arenas." + gameName + ".";
         KitManager kit = new KitManager();
-        if (config.getConfigurationSection(gamePath + "kits") == null) return null;
+        if (config.getConfigurationSection(gamePath + "kits") == null)
+            return null;
         kitCreator(config, kit, gamePath);
         Util.log("Loaded custom kits for arena: " + gameName);
         return kit;
@@ -57,7 +58,8 @@ public class ItemStackManager {
 
     @SuppressWarnings("ConstantConditions")
     private void kitCreator(Configuration config, KitManager kit, @Nullable String gameName) {
-        if (gameName == null) gameName = "";
+        if (gameName == null)
+            gameName = "";
         for (String path : config.getConfigurationSection(gameName + "kits").getKeys(false)) {
             try {
                 ArrayList<ItemStack> stack = new ArrayList<>();
@@ -107,7 +109,8 @@ public class ItemStackManager {
      */
     @SuppressWarnings("deprecation")
     public ItemStack getItem(String args, boolean isStackable) {
-        if (args == null) return null;
+        if (args == null)
+            return null;
         int amount = 1;
         if (isStackable) {
             String a = args.split(" ")[1];
@@ -116,7 +119,8 @@ public class ItemStackManager {
             }
         }
         ItemStack item = itemStringToStack(args.split(" ")[0], amount);
-        if (item == null) return null;
+        if (item == null)
+            return null;
 
         String[] ags = args.split(" ");
         for (String s : ags) {
@@ -180,11 +184,11 @@ public class ItemStackManager {
             } else if (s.startsWith("data:")) {
                 s = s.replace("data:", "").replace("~", " ");
                 if (nbtApi != null)
-                    //nbtApi.setNBT(item, s);
+                    // nbtApi.setNBT(item, s);
                     item = nbtApi.getItemWithNBT(item, s);
             } else if (s.startsWith("ownerName:")) {
                 s = s.replace("ownerName:", "");
-                //if (item.getType().equals(Material.PLAYER_HEAD)) {
+                // if (item.getType().equals(Material.PLAYER_HEAD)) {
                 if (item.getItemMeta() instanceof SkullMeta) {
                     ItemMeta meta = item.getItemMeta();
                     assert meta != null;
@@ -199,7 +203,8 @@ public class ItemStackManager {
     private ItemStack itemStringToStack(String item, int amount) {
         String oldPotion = item.toUpperCase();
         String[] itemArr = item.split(":");
-        if (oldPotion.startsWith("POTION:") || oldPotion.startsWith("SPLASH_POTION:") || oldPotion.startsWith("LINGERING_POTION:")) {
+        if (oldPotion.startsWith("POTION:") || oldPotion.startsWith("SPLASH_POTION:")
+                || oldPotion.startsWith("LINGERING_POTION:")) {
             return getPotion(item, amount);
         }
         Material mat = verifyMaterial(itemArr[0].toUpperCase());

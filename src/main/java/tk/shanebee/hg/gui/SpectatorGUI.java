@@ -41,7 +41,8 @@ public class SpectatorGUI implements InventoryHolder, Listener {
         int i = 0;
         for (UUID uuid : game.getPlayers()) {
             Player player = Bukkit.getPlayer(uuid);
-            if (player == null) continue;
+            if (player == null)
+                continue;
             inv.setItem(i, getHead(player));
             i++;
         }
@@ -66,23 +67,29 @@ public class SpectatorGUI implements InventoryHolder, Listener {
 
     @EventHandler
     private void onClick(InventoryClickEvent event) {
-        if (inv.getHolder() != this) return;
-        if (!game.getSpectators().contains(event.getWhoClicked().getUniqueId())) return;
+        if (inv.getHolder() != this)
+            return;
+        if (!game.getSpectators().contains(event.getWhoClicked().getUniqueId()))
+            return;
 
         event.setCancelled(true);
         Player player = ((Player) event.getWhoClicked());
         ItemStack clickedItem = event.getCurrentItem();
 
-        if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
-        if (!(clickedItem.getItemMeta() instanceof SkullMeta)) return;
+        if (clickedItem == null || clickedItem.getType() == Material.AIR)
+            return;
+        if (!(clickedItem.getItemMeta() instanceof SkullMeta))
+            return;
         Player clicked = getClicked(((SkullMeta) clickedItem.getItemMeta()));
-        if (clicked == null) return;
+        if (clicked == null)
+            return;
         player.teleport(clicked);
     }
 
     private Player getClicked(SkullMeta meta) {
         OfflinePlayer player = meta.getOwningPlayer();
-        if (player == null || !player.isOnline() || !game.getPlayers().contains(player.getUniqueId())) return null;
+        if (player == null || !player.isOnline() || !game.getPlayers().contains(player.getUniqueId()))
+            return null;
         return ((Player) player);
     }
 

@@ -25,7 +25,8 @@ public class ChestDropTask implements Runnable {
 
     public ChestDropTask(Game g) {
         this.g = g;
-        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, Config.randomChestInterval, Config.randomChestInterval);
+        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this,
+                Config.randomChestInterval, Config.randomChestInterval);
     }
 
     public void run() {
@@ -60,10 +61,8 @@ public class ChestDropTask implements Runnable {
             Player p = Bukkit.getPlayer(u);
             if (p != null) {
                 Util.scm(p, HG.getPlugin().getLang().chest_drop_1);
-                Util.scm(p, HG.getPlugin().getLang().chest_drop_2
-                        .replace("<x>", String.valueOf(x))
-                        .replace("<y>", String.valueOf(y))
-                        .replace("<z>", String.valueOf(z)));
+                Util.scm(p, HG.getPlugin().getLang().chest_drop_2.replace("<x>", String.valueOf(x))
+                        .replace("<y>", String.valueOf(y)).replace("<z>", String.valueOf(z)));
                 Util.scm(p, HG.getPlugin().getLang().chest_drop_1);
             }
         }
@@ -72,7 +71,8 @@ public class ChestDropTask implements Runnable {
     public void shutdown() {
         Bukkit.getScheduler().cancelTask(timerID);
         for (ChestDrop cd : chests) {
-            if (cd != null) cd.remove();
+            if (cd != null)
+                cd.remove();
         }
     }
 }

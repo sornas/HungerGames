@@ -25,7 +25,6 @@ import tk.shanebee.hg.util.Util;
 
 import java.util.Random;
 
-
 /**
  * Manager for chest drops
  */
@@ -48,13 +47,14 @@ public class ChestDrop implements Listener {
     @EventHandler
     public void onUnload(ChunkUnloadEvent event) {
         if (event.getChunk().equals(c)) {
-            //event.setCancelled(true); I guess this was removed?!?
+            // event.setCancelled(true); I guess this was removed?!?
             event.getChunk().setForceLoaded(true); // Let's give this a try
         }
     }
 
     public void remove() {
-        if (fb != null && !fb.isDead()) fb.remove();
+        if (fb != null && !fb.isDead())
+            fb.remove();
         if (beforeBlock != null) {
             beforeBlock.update(true);
             Block b = beforeBlock.getBlock();
@@ -70,7 +70,8 @@ public class ChestDrop implements Listener {
     public void onEntityModifyBlock(EntityChangeBlockEvent event) {
         Entity en = event.getEntity();
 
-        if (!(en instanceof FallingBlock)) return;
+        if (!(en instanceof FallingBlock))
+            return;
 
         FallingBlock fb2 = (FallingBlock) en;
 
@@ -99,8 +100,10 @@ public class ChestDrop implements Listener {
 
     @EventHandler
     public void onOpenChestDrop(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null) return;
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && beforeBlock != null && event.getClickedBlock().getLocation().equals(beforeBlock.getLocation())) {
+        if (event.getClickedBlock() == null)
+            return;
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && beforeBlock != null
+                && event.getClickedBlock().getLocation().equals(beforeBlock.getLocation())) {
             Player player = event.getPlayer();
             Game game = playerManager.getPlayerData(player.getUniqueId()).getGame();
             Random rg = new Random();
@@ -110,7 +113,7 @@ public class ChestDrop implements Listener {
             i.clear();
             int c = rg.nextInt(Config.randomChestMaxContent) + 1;
             while (c != 0) {
-                ItemStack it = HG.getPlugin().getManager().randomItem(game,false);
+                ItemStack it = HG.getPlugin().getManager().randomItem(game, false);
                 if (it != null) {
                     i.addItem(it);
                 }

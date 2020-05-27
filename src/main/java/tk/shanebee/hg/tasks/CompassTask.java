@@ -16,76 +16,78 @@ import java.util.UUID;
 
 public class CompassTask implements Runnable {
 
-	private final PlayerManager playerManager;
+    private final PlayerManager playerManager;
 
-	public CompassTask(HG plugin) {
-		this.playerManager = plugin.getPlayerManager();
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 25L, 25L);
-	}
+    public CompassTask(HG plugin) {
+        this.playerManager = plugin.getPlayerManager();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 25L, 25L);
+    }
 
-	@Override
-	public void run() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
+    @Override
+    public void run() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
 
-			if (p.getInventory().contains(Material.COMPASS)) {
-				PlayerData pd = playerManager.getPlayerData(p.getUniqueId());
+            if (p.getInventory().contains(Material.COMPASS)) {
+                PlayerData pd = playerManager.getPlayerData(p.getUniqueId());
 
-				if (pd != null) {
+                if (pd != null) {
 
-					String[] st = getNearestPlayer(p, pd);
-					String info = ChatColor.translateAlternateColorCodes('&',
-							HG.getPlugin().getLang().compass_nearest_player.replace("<player>", st[0]).replace("<distance>", st[1]));
+                    String[] st = getNearestPlayer(p, pd);
+                    String info = ChatColor.translateAlternateColorCodes('&',
+                            HG.getPlugin().getLang().compass_nearest_player.replace("<player>", st[0])
+                                    .replace("<distance>", st[1]));
 
-					for (ItemStack it : p.getInventory()) {
-						if (it != null && it.getType() == Material.COMPASS) {
-							ItemMeta im = it.getItemMeta();
-							im.setDisplayName(info);
-							it.setItemMeta(im);
-						}
-					}
-				}
+                    for (ItemStack it : p.getInventory()) {
+                        if (it != null && it.getType() == Material.COMPASS) {
+                            ItemMeta im = it.getItemMeta();
+                            im.setDisplayName(info);
+                            it.setItemMeta(im);
+                        }
+                    }
+                }
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	private int cal(int i) {
-		if (i < 0) {
-			return -i;
-		}
-		return i;
-	}
+    private int cal(int i) {
+        if (i < 0) {
+            return -i;
+        }
+        return i;
+    }
 
-	private String[] getNearestPlayer(Player p, PlayerData pd) {
+    private String[] getNearestPlayer(Player p, PlayerData pd) {
 
-		Game g = pd.getGame();
+        Game g = pd.getGame();
 
-		int x = p.getLocation().getBlockX();
-		int y = p.getLocation().getBlockY();
-		int z = p.getLocation().getBlockZ();
+        int x = p.getLocation().getBlockX();
+        int y = p.getLocation().getBlockY();
+        int z = p.getLocation().getBlockZ();
 
-		int i = 200000;
+        int i = 200000;
 
-		Player player = null;
+        Player player = null;
 
-		for (UUID u: g.getPlayers()) {
+        for (UUID u : g.getPlayers()) {
 
-			Player p2 = Bukkit.getPlayer(u);
+            Player p2 = Bukkit.getPlayer(u);
 
-			if (p2 != null && !p2.equals(p) && !pd.isOnTeam(u)) {
+            if (p2 != null && !p2.equals(p) && !pd.isOnTeam(u)) {
 
-				Location l = p2.getLocation();
+                Location l = p2.getLocation();
 
-				int c = cal((int) (x - l.getX())) + cal((int) (y - l.getY())) + cal((int) (z - l.getZ()));
+                int c = cal((int) (x - l.getX())) + cal((int) (y - l.getY())) + cal((int) (z - l.getZ()));
 
-				if (i > c) {
-					player = p2;
-					i = c;
-				}
-			}
-		}
-		if (player != null) p.setCompassTarget(player.getLocation());
+                if (i > c) {
+                    player = p2;
+                    i = c;
+                }
+            }
+        }
+        if (player != null)
+            p.setCompassTarget(player.getLocation());
 
-		return new String[] {(player==null?"none":player.getName()), String.valueOf(i)};
-	}
+        return new String[] { (player == null ? "none" : player.getName()), String.valueOf(i) };
+    }
 }

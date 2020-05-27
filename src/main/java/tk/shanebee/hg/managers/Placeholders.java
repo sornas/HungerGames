@@ -66,8 +66,8 @@ public class Placeholders extends PlaceholderExpansion {
         if (identifier.startsWith("lb_combined_")) {
             int leader = (Integer.parseInt(identifier.replace("lb_combined_", "")));
             if (leaderboard.getStatsPlayers(Leaderboard.Stats.WINS).size() >= leader)
-                return leaderboard.getStatsPlayers(Leaderboard.Stats.WINS).get(leader - 1) + lang.lb_combined_separator +
-                        leaderboard.getStatsScores(Leaderboard.Stats.WINS).get(leader - 1);
+                return leaderboard.getStatsPlayers(Leaderboard.Stats.WINS).get(leader - 1) + lang.lb_combined_separator
+                        + leaderboard.getStatsScores(Leaderboard.Stats.WINS).get(leader - 1);
             else
                 return lang.lb_blank_space + lang.lb_combined_separator + lang.lb_blank_space;
         }
@@ -76,31 +76,31 @@ public class Placeholders extends PlaceholderExpansion {
         }
         String[] id = identifier.split("_");
         switch (id[0]) {
-            case "lb":
-                switch (id[1]) {
-                    case "wins":
-                    case "kills":
-                    case "deaths":
-                    case "games":
-                        if (id[2].equalsIgnoreCase("p"))
-                            return getStatPlayers(identifier);
-                        else if (id[2].equalsIgnoreCase("s"))
-                            return getStatScores(identifier);
-                        else if (id[2].equalsIgnoreCase("c"))
-                            return getStatPlayers(identifier) + " : " + getStatScores(identifier);
-                        else if (id[2].equalsIgnoreCase("player"))
-                            return getStatsPlayer(identifier, player);
-                }
-            case "status":
-                return HG.getPlugin().getManager().getGame(id[1]).getStatus().getName();
-            case "cost":
-                return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getCost());
-            case "playerscurrent":
-                return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getPlayers().size());
-            case "playersmax":
-                return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getMaxPlayers());
-            case "playersmin":
-                return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getMinPlayers());
+        case "lb":
+            switch (id[1]) {
+            case "wins":
+            case "kills":
+            case "deaths":
+            case "games":
+                if (id[2].equalsIgnoreCase("p"))
+                    return getStatPlayers(identifier);
+                else if (id[2].equalsIgnoreCase("s"))
+                    return getStatScores(identifier);
+                else if (id[2].equalsIgnoreCase("c"))
+                    return getStatPlayers(identifier) + " : " + getStatScores(identifier);
+                else if (id[2].equalsIgnoreCase("player"))
+                    return getStatsPlayer(identifier, player);
+            }
+        case "status":
+            return HG.getPlugin().getManager().getGame(id[1]).getStatus().getName();
+        case "cost":
+            return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getCost());
+        case "playerscurrent":
+            return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getPlayers().size());
+        case "playersmax":
+            return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getMaxPlayers());
+        case "playersmin":
+            return String.valueOf(HG.getPlugin().getManager().getGame(id[1]).getMinPlayers());
         }
         return null;
     }

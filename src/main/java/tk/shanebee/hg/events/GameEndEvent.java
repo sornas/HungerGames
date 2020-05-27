@@ -24,22 +24,29 @@ public class GameEndEvent extends Event {
         this.death = death;
     }
 
-    /** Get the game that ended
+    /**
+     * Get the game that ended
+     * 
      * @return Game that ended
      */
     public Game getGame() {
         return this.game;
     }
 
-    /** Get the winners of this game
+    /**
+     * Get the winners of this game
+     * 
      * @return Winners of the game
      */
     public Collection<Player> getWinners() {
         return this.winners;
     }
 
-    /** Get whether or not the game ended by death
-     * @return True if the game finished by the result of death, false if the game was force stopped
+    /**
+     * Get whether or not the game ended by death
+     * 
+     * @return True if the game finished by the result of death, false if the game
+     *         was force stopped
      */
     public boolean byDeath() {
         return this.death;

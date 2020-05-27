@@ -165,7 +165,6 @@ public class Language {
     public String spectator_compass;
     public String spectator_compass_head_lore;
 
-
     public Language(HG plugin) {
         this.plugin = plugin;
         loadLangFile();
@@ -183,7 +182,7 @@ public class Language {
             lang = YamlConfiguration.loadConfiguration(customLangFile);
         }
         matchConfig(lang, customLangFile);
-		loadLang();
+        loadLang();
         Util.log("&7language.yml loaded");
     }
 

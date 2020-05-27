@@ -14,33 +14,33 @@ import tk.shanebee.hg.Status;
  */
 public class Rollback implements Runnable {
 
-	private final Iterator<BlockState> session;
-	private Game game;
-	private int blocks_per_second;
-	private int timerID;
+    private final Iterator<BlockState> session;
+    private Game game;
+    private int blocks_per_second;
+    private int timerID;
 
-	public Rollback(Game game) {
-		this.game = game;
-		this.blocks_per_second = Config.blocks_per_second / 10;
-		game.setStatus(Status.ROLLBACK);
-		this.session = game.getBlocks().iterator();
-		timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 1, 2);
-	}
+    public Rollback(Game game) {
+        this.game = game;
+        this.blocks_per_second = Config.blocks_per_second / 10;
+        game.setStatus(Status.ROLLBACK);
+        this.session = game.getBlocks().iterator();
+        timerID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 1, 2);
+    }
 
-	public void run() {
-		int i = 0;
-		while (i < blocks_per_second && session.hasNext()) {
-		    BlockState state = session.next();
-		    if (state != null) {
+    public void run() {
+        int i = 0;
+        while (i < blocks_per_second && session.hasNext()) {
+            BlockState state = session.next();
+            if (state != null) {
                 state.update(true);
             }
-			i++;
-		}
-		if (!session.hasNext()) {
-			Bukkit.getServer().getScheduler().cancelTask(timerID);
-			game.resetBlocks();
-			game.setStatus(Status.READY);
-		}
-	}
+            i++;
+        }
+        if (!session.hasNext()) {
+            Bukkit.getServer().getScheduler().cancelTask(timerID);
+            game.resetBlocks();
+            game.setStatus(Status.READY);
+        }
+    }
 
 }
