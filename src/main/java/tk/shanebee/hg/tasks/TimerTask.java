@@ -14,6 +14,7 @@ public class TimerTask implements Runnable {
     private int teleportTimer;
     private int borderCountdownStart;
     private int borderCountdownEnd;
+    private boolean borderForceStart;
     private int id;
     private Game game;
 
@@ -25,13 +26,18 @@ public class TimerTask implements Runnable {
         this.borderCountdownEnd = g.getBorderTimer().get(1);
         g.getPlayers().forEach(uuid -> Objects.requireNonNull(Bukkit.getPlayer(uuid)).setInvulnerable(false));
 
-        this.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 0, 30 * 20L);
+        this.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HG.getPlugin(), this, 0, 5 * 20L);
     }
 
     @Override
     public void run() {
         if (game == null || game.getStatus() != Status.RUNNING)
             stop(); // A quick null check!
+
+        if (game.startBorder) {
+            remainingtime = borderCountdownStart;
+            game.startBorder = false;
+        }
 
         if (Config.bossbar)
             game.bossbarUpdate(remainingtime);
@@ -71,7 +77,7 @@ public class TimerTask implements Runnable {
                             String.valueOf(this.remainingtime)));
             }
         }
-        remainingtime = (remainingtime - 30);
+        remainingtime = (remainingtime - 5);
     }
 
     public void stop() {

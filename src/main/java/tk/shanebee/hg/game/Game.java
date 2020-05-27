@@ -90,6 +90,7 @@ public class Game {
     private int borderSize;
     private int borderCountdownStart;
     private int borderCountdownEnd;
+    public boolean startBorder = false;
 
     private boolean spectate = Config.spectateEnabled;
     private boolean spectateOnDeath = Config.spectateOnDeath;
