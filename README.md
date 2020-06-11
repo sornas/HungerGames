@@ -1,12 +1,7 @@
 # HungerGames
-![GitHub issues](https://img.shields.io/bitbucket/issues/ShaneBeeStudios/HungerGames.svg?style=for-the-badge)
-[![Discord](https://img.shields.io/discord/425192525091831808.svg?style=for-the-badge)](https://discordapp.com/invite/km3UF8Q)
+A fork of [a fork](https://github.com/ShaneBeeStudios/HungerGames) of [ImSpoopy's HungerGames](https://github.com/ImSpoopy/Hungergames), used during LiTHe kods "Falafelspelen" 2020-06-02.
 
+## Changes
 
-
-A new fork of ImSpoopy's [**HungerGames**](https://github.com/ImSpoopy/Hungergames)
-
-Updating this plugin to work on 1.13.2  
-See [**WIKI**](https://bitbucket.org/ShaneBeeStudios/HungerGames/wiki) for commands, permissions and setup instructions.
-
-For a more detailed description of the plugin, find it on [**SpigotMC**](https://www.spigotmc.org/resources/hungergames.65942/)
+- `/hg borderstart <game>` - force the timer to be equal to the border start time.
+- Don't automatically end the game when the time runs out.
